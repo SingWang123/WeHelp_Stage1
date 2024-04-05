@@ -1,0 +1,371 @@
+/* 清除原始設定 */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+ 
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* 以上引用reset css 設定 */
+
+html{
+    font-size:20px;
+    font-weight: 800;
+    background-color:white;
+}
+
+/* 1200px < screen width < 1920px
+/* navigation bar */
+.navbar--600px{
+    display: none;
+}
+
+.navbar__popup{
+    display: none;
+}
+
+.body{
+    font-size:20px;
+}
+
+.navbar{
+    display: flex;
+    justify-content:space-between;
+    width:auto;
+}
+
+.navbar__webtitle{
+    margin:10px;
+}
+
+.navbar__list_items{
+    display: flex;
+}
+
+.navbar__item{
+    margin:10px 10px;
+}
+
+
+
+/* 中間標題*/
+.headline{
+    width:auto;
+    height:250px;
+    background-color: lightblue;
+}
+
+.headline__word{
+    text-align: center;
+    line-height:250px;
+}
+
+h1{
+    font-size: 40px;
+    margin:0px
+}
+
+/*下方圖片內容*/
+/*small box*/
+
+.content{
+    width:1200px;
+    margin:0 auto;
+}
+
+.content__list_sbox{
+    display: flex;
+    justify-content: space-between;
+}
+
+.content__sbox{
+    display: flex;
+    flex: 1 1 33%;
+    height: 50px;
+    background-color: lightblue;
+    margin:20px 10px 10px 10px;
+    align-items: center;
+}
+
+.content__sbox_img{
+    width: 80px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.content__sbox_word{
+    text-align: left;
+    line-height: 50px;
+    padding:10px;
+}
+
+/*big box*/
+.content__list_bbox{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 200px 200px;
+    row-gap: 20px;
+}
+
+.content__bbox{
+    margin:10px;
+}
+
+.content__bbox_container{
+    position: relative;
+    height: 200px;
+}
+
+.content__bbox_img{
+    width:100%;
+    height:200px;
+    object-fit: cover;
+}
+
+.content__bbox_star{
+    position: absolute;
+    top:10px;
+    right:10px;
+}
+
+.content__bbox_wordbackground{
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(240, 203, 240, 0.5);
+}
+
+.content__bbox_word{
+    text-align: center;
+    padding:12.5px;
+}
+
+p{
+    margin:0;
+}
+
+
+/* 600px < screen width < 1200px */
+@media(max-width:1200px){
+    /*螢幕寬度小於1200px,套用這組CSS*/
+
+    /*下方圖片內容*/
+    /*small box*/
+    .content{
+        width:90%;
+        margin:0 auto;
+    }
+
+    .content__list_sbox{
+        width:auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .content__sbox{
+        display: flex;
+        flex:45%;
+        height: 50px;
+        background-color: lightblue;
+        align-items: center;
+    }
+
+    .content__sbox:last-child{
+        width:100%;
+        margin:10px;
+    }
+    
+    /*big box*/
+    .content__list_bbox{
+        width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:space-between ;
+    }
+
+    .content__bbox{
+        width:auto;
+        flex:1 1 20%;
+        margin-bottom:-10px;
+    }
+
+    /* 360px < screen width < 600px */
+    @media(max-width:600px){
+    /* 螢幕寬度小於600px,套用這組CSS*/
+
+    .navbar{
+        display: none;
+    }
+
+    /* 600尺寸的 navigation bar */
+    .navbar--600px{
+        display:block;
+        display:flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar__hamberger{
+        width: 50%;
+
+    .navbar__img_menu{
+        display: inline-block;
+        position: absolute;
+        z-index: 0;
+        right:10px;
+        top:10px;
+    }
+
+    .navbar__img_close{
+        display: inline-block;
+        position: absolute;
+        z-index: 2;
+        right:10px;
+        top:10px;
+        display:none;
+    }
+    
+
+    }
+
+    /* 漢堡選單*/
+
+    .navbar__popup{
+        display:none;
+        background-color: white;
+        width: 50%;
+        height: 100vh;
+        position: fixed;
+        z-index: 1;
+    }
+
+    .navbar__popup_items{
+        width: 100%;
+        display:flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        position: absolute;
+        top:20px;
+    }
+
+    .navbar__item{
+        flex:100%;
+        text-align: center;
+    }
+
+
+    /* 點選選單關閉選單，叉叉出現*/
+
+    #switch:checked + .label__hamberger .navbar__img_menu {
+        display:none;
+    }
+    
+    #switch:checked + .label__hamberger .navbar__img_close {
+        display:block;
+    }
+
+    /* 點選單彈跳視窗出現 */
+    #switch:checked ~ .navbar__popup {
+        display: block;
+    }
+
+     /* 系統內建的checkbox，關閉。*/
+    input{
+        display:none;
+        margin:0;
+    }
+
+
+    /*下方圖片內容*/
+    /*small box-600px*/
+    .content{
+        width:90%;
+        margin:0 auto;
+    }
+
+    .content__list_sbox{
+        width:auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 10px;
+    }
+
+    .content__sbox{
+        display: flex;
+        flex:90%;
+        height: 50px;
+        background-color: lightblue;
+        align-items: center;
+        margin:10px;
+    }
+
+    
+    /*big box-600px*/
+    .content__list_bbox{
+        width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content:space-between ;
+    }
+
+    .content__bbox{
+        width:auto;
+        flex:90%;
+        margin-bottom:-10px;
+    }
+
+    }
+
+    
+
+
+
+
+
+    }
+}
