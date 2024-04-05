@@ -362,10 +362,10 @@ p{
         margin-bottom:-10px;
     }
 
-    @media(max-width:400px){
-        /* 螢幕寬度小於400px,套用這組CSS*/
+    @media(max-width:420px){
+        /* 螢幕寬度小於420px,套用這組CSS*/
 
-        /* 螢幕寬度400px以下，中間標題等比縮小*/
+        /* 螢幕寬度420px以下，中間標題等比縮小*/
         .headline{
             width:auto;
             height: 0px;
