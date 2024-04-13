@@ -93,13 +93,16 @@ html{
 /* 中間標題*/
 .headline{
     width:auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height:250px;
     background-color: lightblue;
 }
 
 .headline__word{
+    display: inline-block;
     text-align: center;
-    line-height:250px;
 }
 
 h1{
@@ -359,13 +362,30 @@ p{
         margin-bottom:-10px;
     }
 
+    @media(max-width:420px){
+        /* 螢幕寬度小於420px,套用這組CSS*/
+
+        /* 螢幕寬度420px以下，中間標題等比縮小*/
+        .headline{
+            width:auto;
+            height: 0px;
+            display: flex;
+            justify-content: center;
+            padding-bottom: 62.5%;
+            background-color: lightblue;
+        }
+
+        .headline__word{
+            display: inline-block;
+            text-align: center;
+            padding-top:62.5%;
+        }
+
+        h1{
+            font-size: 9vw;
+            margin:0px
+        }
+
     }
 
-    
-
-
-
-
-
     }
-}

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <H1>Wehelp Assignment Week2 - Javascript</H1>
+</body>
+
+<script>
+
+//Task 1:
+
+function findAndPrint(messages, currentStation){
+
+//建立一個綠線的物件，有站名和站的順序
+let greenLine = {
+    "Songshan":1,
+    "Nanjing Sanmin":2,
+    "Taipei Arena":3,
+    "Nanjing Fuxing":4,
+    "Soogjiang Nanjin":5,
+    "Zhongshan":6,
+    "Beimen":7,
+    "Ximen":8,
+    "Xiaonanmen":9,
+    "Chiang Kai-Shek Memorial Hall":10,
+    "Guting":11,
+    "Taipower Building":12,
+    "Gongguan":13,
+    "Wanlong":14,
+    "Jingmei":15,
+    "Dapinglin":16,
+    "Qizhang":17,
+    "Xiaobitan":17.5,
+    "Xindian City Hall":18,
+    "Xindian":19,
+}
+
+//建立一個只有站名的陣列
+let greenLine2 = Object.keys(greenLine);
+
+//把messages的名稱抓出來
+let messagesName = Object.keys(messages);
+
+// 創建一個誰在哪裡的物件
+let messagesStation={};
+    //用includes找出誰在哪個站，將站名塞進物件內，需要雙迴圈
+    //為方便後續計算，直接塞站的編號進去
+    for (j=0;j<messagesName.length;j++){
+        for(i=0;i<greenLine2.length;i++){
+            if(messages[messagesName[j]].includes(greenLine2[i])){
+                messagesStation[messagesName[j]]=greenLine[[greenLine2[i]]];
+            }
+        }
+    }
+
+//將所在位置編號-相關人員編號，找出最小的數字，存成一個 人：差距站數的物件
+let messagesDistance={};
+for (i=0;i<messagesName.length;i++){
+    if (messagesStation[messagesName[i]]==17.5){ //如果這個人在小碧潭的話，站數的計算方式和其他人不同
+        messagesDistance[messagesName[i]]=Math.abs(greenLine[currentStation] - 17)+1;
+    } else if (messagesStation[messagesName[i]]!==17.5){
+        messagesDistance[messagesName[i]]=Math.abs(greenLine[currentStation] - messagesStation[messagesName[i]]);
+    }}
+
+//找出差距最小的數字是哪個數字是哪個
+let messagesDistanceArr=Object.values(messagesDistance);
+let messagesDistanceMin=Math.min(...messagesDistanceArr);
+
+//用迴圈，找出有差距最小數字的人是哪位
+for (i=0;i<messagesName.length;i++){
+    if (messagesDistance[messagesName[i]] === messagesDistanceMin){
+    console.log(messagesName[i]);
+    }
+}
+}
+
+console.log("Task 1");
+
+const messages={
+"Bob":"I'm at Ximen MRT station.",
+"Mary":"I have a drink near Jingmei MRT station.",
+"Copper":"I just saw a concert at Taipei Arena.",
+"Leslie":"I'm at home near Xiaobitan station.",
+"Vivian":"I'm at Xindian station waiting for you."
+};
+
+findAndPrint(messages, "Wanlong"); // print Mary
+findAndPrint(messages, "Songshan"); // print Copper
+findAndPrint(messages, "Qizhang"); // print Leslie
+findAndPrint(messages, "Ximen"); // print Bob
+findAndPrint(messages, "Xindian City Hall"); // print Vivian
+
+
+
+
+
+
+
+//Task 2：
+//建立一個預約時間表，寫在function外，因為會回寫
+
+let Appointment={};
+
+function book(consultants, hour, duration, criteria){
+
+    //拉出所有consultants的名字
+    let name=[];
+    for(i=0;i<consultants.length;i++){
+    name.push(consultants[i].name);
+    }
+
+    //如果物件為空，就以consultants的名字創建預約表
+    //物件為空的檢查方式：撈出物件的Key值變成陣列，再抓出陣列長度；長度=0 表示沒有物件。
+    if (Object.keys(Appointment).length==0){   
+        for(i=0;i<consultants.length;i++){
+        Appointment[consultants[i].name]=[];
+    }}
+
+    //過濾出有時間的諮商師
+    //Chat-GPT協助，還要再理解和練習
+    
+    let availableConsultants= consultants.filter(consultant => {
+        let availableHours = Appointment[consultant.name] || [];
+        for (let i = 0; i < duration; i++) {
+            if (availableHours.includes(hour + i)) {
+                return false; // 如果找到冲突的時段，返回 false
+            }
+        }
+        return true; // 如果没有冲突的時段，返回 true
+    });
+
+    if (availableConsultants.length === 0) {
+        console.log("No Service");
+    }
+    
+
+    //拉出有空檔的所有consultants的價格
+    let price=[];                           
+    for(i=0;i<availableConsultants.length;i++){
+    price.push(availableConsultants[i].price);
+    }   
+    
+    //拉出有空檔的所有consultants的評價
+    let rate=[];
+    for(i=0;i<availableConsultants.length;i++){
+    rate.push(availableConsultants[i].rate);
+    }
+
+    
+    // 依據使用者的偏好，選出人選後，再將時段加入預約表
+        
+    if (criteria == "price"){
+        for(i=0;i<availableConsultants.length;i++){
+        if (availableConsultants[i].price==Math.min(...price)){
+            console.log(availableConsultants[i].name);
+            for (j=0;j<duration;j++){
+                Appointment[availableConsultants[i].name].push(hour+j)
+            }
+        }}}  
+    if (criteria =="rate"){
+        for(i=0;i<availableConsultants.length;i++){
+        if (availableConsultants[i].rate==Math.max(...rate)){
+            console.log(availableConsultants[i].name);
+            for (j=0;j<duration;j++){
+                Appointment[availableConsultants[i].name].push(hour+j)
+            } 
+        }}}
+
+}
+
+console.log("Task 2");
+
+const consultants=[
+{"name":"John", "rate":4.5, "price":1000},
+{"name":"Bob", "rate":3, "price":1200},
+{"name":"Jenny", "rate":3.8, "price":800}
+];
+
+book(consultants, 15, 1, "price"); // Jenny
+book(consultants, 11, 2, "price"); // Jenny
+book(consultants, 10, 2, "price"); // John
+book(consultants, 20, 2, "rate"); // John
+book(consultants, 11, 1, "rate"); // Bob
+book(consultants, 11, 2, "rate"); // No Service
+book(consultants, 14, 3, "price"); // John
+
+
+
+//Task 3  找出群組中中間字不一樣的人名
+
+function func(...data){  //變數會變成一組叫data的陣列
+    let middleName=[];   // 設定middleName = 收集所有字串的中間字
+    for(i=0;i<data.length;i++){  //用迴圈找到陣列的所有字串
+        let string = data[i];
+        if(string.length==2){   //用if排除字數兩個字時的中間字
+            middleName.push(string[string.length-1]);
+        } else if(string.length==5){
+            middleName.push(string[string.length-3]);
+        } else middleName.push(string[string.length-2]);
+    }
+
+    let middleNameCount = middleName.reduce((obj,item)=>{  //統計中間字的數量，有超過一個的表示有重複
+        if(item in obj){
+            obj[item]++
+        }else{
+            obj[item] = 1
+        }
+        return obj    
+        },{})
+
+    let ArrCount = Object.entries(middleNameCount); //將物件{字:數量}，轉成一組一組的陣列
+
+    let middleNameDiff=[]                        //抓出只有一個數量（只出現一次的字），若沒有則會是一個空陣列空格
+    for (i=0;i<ArrCount.length;i++){
+        if (ArrCount[i][1]==1){
+            middleNameDiff.push(ArrCount[i][0]);
+        }
+    }
+
+    let Ans=""
+    for(i=0;i<data.length;i++){    
+        if(middleNameDiff.length==0){
+            Ans ="沒有"
+        }else if        
+        (data[i].includes(middleNameDiff[0])){  //找出第一個不重複的名字
+            Ans+=data[i];
+        }else if       
+        (data[i].includes(middleNameDiff[1])){  //找出第二個不重複的名字
+            Ans+=", "+data[i];
+        }   
+    }
+    console.log(Ans);
+    
+
+//方法二，比較土法煉鋼
+/*
+    let diff=""
+    let xyz=""
+    for(i=0;i<middleName.length;i++){
+        if(xyz.includes(middleName[i])){
+
+        }else if(diff.includes(middleName[i])){
+            diff=diff.replace(middleName[i],"");  
+            xyz=xyz+middleName[i]
+        }else diff=diff+middleName[i];
+    }
+
+    let Ans =""
+    if(diff==""){
+        Ans ="沒有";
+    }
+    
+    for(i=0;i<data.length;i++){    
+        if(diff==""){
+            diff="沒有"
+        }else if        
+        (data[i].includes(diff[0])){  //有超過一個不重疊的名字會出問題
+            Ans=Ans+data[i];
+        }else if
+        (data[i].includes(diff[1])){  //有超過一個不重疊的名字會出問題
+            Ans=Ans+", "+data[i]; 
+        }    
+    }
+    console.log(Ans);
+    */
+
+}
+
+console.log("Task 3")
+
+func("彭大牆", "陳王明雅", "吳明"); // print 彭大
+func("郭靜雅", "王立強", "郭林靜宜", "郭立恆", "林花花") // print 林花花
+func("郭宣雅", "林靜宜", "郭宣恆", "林靜花") // print 沒有
+func("郭宣雅", "夏曼藍波安", "郭宣恆") // print 夏曼藍波安
+
+//測試有奇數相同字、差集兩個
+//func("郭宣雅", "夏曼藍波安", "郭宣恆","吳依寧","吳宣宣") 
+
+
+
+//Task 4：0,4,8,7,11,15,14....
+function getNumber(index){
+    let numseq=[]
+    for (let x=0;x<100;x+=4){
+            if(x%7==1){
+                numseq.push(x); //先把8寫進去陣列
+                x-=1;  //減掉1後，再繼續按照規則運算
+            }
+            numseq.push(x);
+        }
+        console.log(numseq[index]);
+}
+console.log("Task 4")
+
+getNumber(1);
+getNumber(5);
+getNumber(10);
+getNumber(30);
+
+
+
+function find(spaces, stat, n){
+
+//先找出可以收人的車廂，並將可收人數塞入變數；不可收人的車廂直接塞-999
+
+let availableSpaceCount=[];
+
+for (i=0;i<stat.length;i++){
+    if (stat[i]===1){
+        availableSpaceCount.push(spaces[i]);
+    } else availableSpaceCount.push(-999);
+}
+
+//console.log(availableSpaceCount);
+
+//列出車廂位置和n欲上車人數的差額，找出>0的最小值，即為最合適的車廂
+let availableSpaceCountDiff=[];
+for (i=0;i<availableSpaceCount.length;i++){
+    availableSpaceCountDiff.push(availableSpaceCount[i]-n);
+}
+
+//先檢查差額的最大值是不是小於0，是的話表示沒有空車廂
+
+if (Math.max(...availableSpaceCountDiff)<0){
+    console.log(-1);
+} else for (j=0;j<availableSpaceCountDiff.length;j++){
+        for(i=0;i<availableSpaceCountDiff.length;i++){  //有空車廂的話，將負數（空位不足的車廂＋999，讓這個車廂不會是之後篩選出差距最小的車廂)
+            if (availableSpaceCountDiff[i]<0){
+                availableSpaceCountDiff[i]=999;
+            }}
+        if(availableSpaceCountDiff[j]===Math.min(...availableSpaceCountDiff)){
+            console.log(j);
+        }
+}
+}
+
+console.log("Task 5")
+
+find([3, 1, 5, 4, 3, 2], [0, 1, 0, 1, 1, 1], 2); // print 5
+find([1, 0, 5, 1, 3], [0, 1, 0, 1, 1], 4); // print -1
+find([4, 6, 5, 8], [0, 1, 1, 1], 4); // print 2
+
+
+
+
+</script>
+
+</html>
+
+
+
+
+
