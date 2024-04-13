@@ -248,3 +248,43 @@ get_number(1) # print 4
 get_number(5) # print 15
 get_number(10) # print 25
 get_number(30) # print 70
+
+
+def find(spaces, stat, n):
+# 先找出可以收人的車廂，並將可收人數塞入變數；不可收人的車廂直接塞-999
+    available_space=[]
+    i=0
+    while i< len(stat):
+        if stat[i] == 0:
+            available_space.append(-999)
+        else: 
+            available_space.append(spaces[i]) 
+        i+=1
+    
+# 找出可收人的車廂空位和想上車人數的差額，接近0的正整數為最合適的值
+    available_space_diff=[]
+    i=0
+    while i< len(available_space):
+        available_space_diff.append(available_space[i]-n)
+        i+=1
+
+# 先檢查差額的最大值是不是小於0，是的話表示沒有空車廂
+    if max(available_space_diff) <0:
+        print(-1)
+    else: 
+        i=0
+        j=0
+        while j<len(available_space_diff):
+            while i<len(available_space_diff):
+                if available_space_diff[i] < 0:
+                    available_space_diff[i]=999
+                i+=1
+            if available_space_diff[j] == min(available_space_diff):
+                print(j)
+            j+=1
+
+print("Task 5")
+
+find([3, 1, 5, 4, 3, 2], [0, 1, 0, 1, 1, 1], 2) # print 5
+find([1, 0, 5, 1, 3], [0, 1, 0, 1, 1], 4) # print -1
+find([4, 6, 5, 8], [0, 1, 1, 1], 4) # print 2
