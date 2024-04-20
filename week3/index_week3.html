@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment_Week 1</title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="body">
+    <!--上方navigation bar-->
+    <div class="navbar">
+        <div class="navbar__webtitle">
+            My Website
+        </div>
+        <div class="navbar__list_items">
+            <div class="navbar__item">
+                Item 1
+            </div>
+            <div class="navbar__item">
+                Item 2
+            </div>
+            <div class="navbar__item">
+                Item 3
+            </div>
+            <div class="navbar__item">
+                Item 4
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar--600px">
+        <div class="navbar__webtitle">
+            My Website
+        </div>
+        <div class="navbar__hamberger">
+            <input type="checkbox" id="switch">
+            <label for="switch" class="label__hamberger">
+                <div class="menu"></div>
+                <img class="navbar__img_menu" src="images/Menu.png"/>
+                <img class="navbar__img_close" src="images/Close_round.png"/>
+            </label>
+            <div class="navbar__popup">
+                <div class="navbar__popup_items">
+                    <div class="navbar__item">
+                        Item 1
+                    </div>
+                    <div class="navbar__item">
+                        Item 2
+                    </div>
+                    <div class="navbar__item">
+                        Item 3
+                    </div>
+                    <div class="navbar__item">
+                        Item 4
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!--中間標題-->
+    <div class="headline">
+        <h1 class="headline__word">Welcome to My Home</h1>
+    </div>
+
+    <!--下方圖片-->
+    
+    <div class="content">
+        <div class="content__list_sbox">
+            <div class="content__sbox script__box script__img">
+                <!--改用script插入，以下同樣元素刪除
+                <img class="content__sbox_img" src="images/imgpsh_fullsize_test 1.png"/>
+                <p class="content__sbox_word">Promotion 1</p>
+                -->
+            </div>
+            <div class="content__sbox script__box script__img">
+            </div>
+            <div class="content__sbox script__box script__img">
+            </div>
+        </div>
+        <div class="content__list_bbox">
+            <div class="content__bbox" >
+                <div class="content__bbox_container script__img">
+                    <!-- 改用script插入，以下同樣元素刪除
+                    <img class="content__bbox_img" src="images/imgpsh_fullsize_test 1.png"> -->
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                            <!--改用script插入，以下同樣元素刪除
+                            <p class="content__bbox_word">Title 1</p>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="content__bbox">
+                <div class="content__bbox_container script__img">
+                    <div>
+                        <img class="content__bbox_star" src="images/Star_on.png"/>
+                        <div class="content__bbox_wordbackground script__box">
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    <!-- 下方讀取更多的按鈕 -->
+    <div class="content__button">
+        <button class="button" onclick="clickAddSpot(event)">
+            <p class="button__word">Load More</p>
+        </button>
+    </div>
+</body>
+
+<script>
+
+//拉出景點名稱資料和景點圖片資料
+let spotData = [];
+let spotImg = [];
+
+fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1").then(function(response){
+    return response.json();
+    }).then(function(data){
+        for (i=0;i<data["data"]["results"].length;i++){
+            spotData.push(data["data"]["results"][i]["stitle"]);
+            spotImg.push(data["data"]["results"][i]["filelist"]);
+        }
+
+        //清理圖片資料
+        let newImgSrc = []
+        for (i=0;i<spotImg.length;i++){
+            x=spotImg[i].split("https://");
+            newImgSrc.push("https://"+ x[1]);
+        }
+        
+        //撈出資料，塞進去html中
+        //塞圖片        
+        let newBox = document.getElementsByClassName("script__box");  //選擇容器
+        let newBoxImg = document.getElementsByClassName("script__img");  //選擇容器
+        
+        for (i=0;i<newBoxImg.length;i++){
+            let newImg = document.createElement('img'); //建立新的元素<img>
+            if(i<3){
+                newImg.className = "content__sbox_img";
+            }else newImg.className = "content__bbox_img";
+                newImg.src = newImgSrc[i];  //改變圖片的網址
+                newBoxImg[i].appendChild(newImg); 
+        }
+
+        //塞景點名稱
+        for(i=0;i<newBox.length;i++){
+            let newTitle = document.createElement('p');    //建立新的元素<P>
+            if(i<3){
+                newTitle.className = "content__sbox_word";   
+            }else newTitle.className = "content__bbox_word";
+                let newWord = document.createTextNode(spotData[i]);  //建立新的文字節點
+                newTitle.appendChild(newWord);                       //把文字節點加入新的元素P
+                newBox[i].appendChild(newTitle);  //將新元素插進去容器內
+        }
+        });
+
+//創建Bbox
+function createBbox(){
+    let contentBbox = document.createElement('div'); //建立新的div
+    contentBbox.className = "content__bbox" //塞入classname
+
+    let contentBboxContainer = document.createElement('div'); //建立新的div
+    contentBboxContainer.className = "content__bbox_container script__img" //塞入classname
+
+    let newDiv = document.createElement('div'); //建立新的div
+
+    let contentBboxStar = document.createElement('img'); //建立新的img
+    contentBboxStar.className = "content__bbox_star"  //塞入classname
+    contentBboxStar.src = "images/Star_on.png"  //塞入img
+
+    let contentBboxWordbackground = document.createElement('div'); //建立新的div
+    contentBboxWordbackground.className = "content__bbox_wordbackground script__box" //塞入classname
+
+    //開始拼裝
+    newDiv.appendChild(contentBboxStar);
+    newDiv.appendChild(contentBboxWordbackground);
+    contentBboxContainer.appendChild(newDiv);
+    contentBbox.appendChild(contentBboxContainer);
+
+    return contentBbox;
+}
+
+//計算點擊數字
+var clickCount=1;
+
+
+//點擊事件:選擇容器，將Bbox加進去，塞進去Fetch的值
+function clickAddSpot(event){
+    fetch("https://padax.github.io/taipei-day-trip-resources/taipei-attractions-assignment-1").then(function(response){
+    return response.json();
+    }).then(function(data){
+        for (i=0;i<data["data"]["results"].length;i++){
+            spotData.push(data["data"]["results"][i]["stitle"]);
+            spotImg.push(data["data"]["results"][i]["filelist"]);
+        }
+
+        //清理圖片資料
+        let newImgSrc = []
+        for (i=0;i<spotImg.length;i++){
+            x=spotImg[i].split("https://");
+            newImgSrc.push("https://"+ x[1]);
+        }
+        
+        //計算最後一次點擊，點擊完，讓按鈕消失
+        if (Math.ceil((data["data"]["results"].length-3)/10)-1 == clickCount){
+            let buttonDisable = document.querySelector(".content__button");
+            buttonDisable.style.display = "none";
+        }
+
+        //最後一次點擊，只產出餘數數量的盒子
+        if ((Math.ceil((data["data"]["results"].length-3)/10)-1 == clickCount)){
+            //要餘數數量的box
+            for(i=3+clickCount*10;i<3+clickCount*10+((data["data"]["results"].length-3)%10);i++){
+            //做出Bbox的殼
+            let contentBboxList = document.querySelector(".content__list_bbox");
+            let contentBbox = createBbox();
+            contentBboxList.appendChild(contentBbox);
+
+            //塞圖片        
+            let newBoxImg = document.getElementsByClassName("script__img");  //選擇容器            
+            let newImg = document.createElement('img'); //建立新的元素<img>
+            newImg.className = "content__bbox_img";
+            newImg.src = newImgSrc[i];  //改變圖片的網址
+            newBoxImg[i].appendChild(newImg); 
+
+            //塞景點名稱
+            let newBox = document.getElementsByClassName("script__box");  //選擇容器
+            let newTitle = document.createElement('p');    //建立新的元素<P> 
+            newTitle.className = "content__bbox_word";
+            let newWord = document.createTextNode(spotData[i]);  //建立新的文字節點
+            newTitle.appendChild(newWord);                       //把文字節點加入新的元素P
+            newBox[i].appendChild(newTitle);  //將新元素插進去容器內
+            }
+        } else {
+            //其他時候，每次點擊會產10個box
+            for(i=3+clickCount*10;i<3+clickCount*10+10;i++){
+            //做出Bbox的殼
+            let contentBboxList = document.querySelector(".content__list_bbox");
+            let contentBbox = createBbox();
+            contentBboxList.appendChild(contentBbox);
+
+            //塞圖片        
+            let newBoxImg = document.getElementsByClassName("script__img");  //選擇容器            
+            let newImg = document.createElement('img'); //建立新的元素<img>
+            newImg.className = "content__bbox_img";
+            newImg.src = newImgSrc[i];  //改變圖片的網址
+            newBoxImg[i].appendChild(newImg); 
+
+            //塞景點名稱
+            let newBox = document.getElementsByClassName("script__box");  //選擇容器
+            let newTitle = document.createElement('p');    //建立新的元素<P> 
+            newTitle.className = "content__bbox_word";
+            let newWord = document.createTextNode(spotData[i]);  //建立新的文字節點
+            newTitle.appendChild(newWord);                       //把文字節點加入新的元素P
+            newBox[i].appendChild(newTitle);  //將新元素插進去容器內
+            }
+        }
+        
+        //點擊次數加1（算最大點擊次數和定位項目）
+        clickCount=clickCount+1;
+    });
+} 
+  
+    
+/* //試寫的用template作法，當時使用失敗，後續再測試看看能否作用。
+<template id="bboxTemplate">
+    <div class="content__bbox">
+        <div class="content__bbox_container script__img">
+            <div>
+                <img class="content__bbox_star" src="images/Star_on.png"/>
+                <div class="content__bbox_wordbackground script__box">
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+function clickAddSpot(event) {
+    let contentBboxList = document.querySelector(".content__list_bbox");
+    let template = document.querySelector("#bboxTemplate");
+    let contentBbox = template.content.cloneNode(true);
+    contentBboxList.appendChild(contentBbox);
+}
+
+*/
+
+</script>
+
+</html>
