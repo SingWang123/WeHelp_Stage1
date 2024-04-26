@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="{{url_for('static', path='/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class = "title__background">
+        <h1 class = "title__word">歡迎光臨，請輸入帳號密碼</h1>
+    </div>
+    <div class = "content">
+        <h2 class = "content__word">登入系統</h2>
+        <div class = "input">
+            <label for = "account">帳號</label>
+            <input placeholder = "請輸入帳號" id = "account">
+        </div>
+        <div class = "input">
+            <label for = "password">密碼</label>
+            <input placeholder = "請輸入密碼" id = "password">
+        </div>
+        <div class = "input">
+            <label for = "consent">同意條款</label>
+            <input type = "checkbox" id = "consent">
+        </div>
+        <button class = "button" type = "submit"  id = "consentCheck">登入</button>
+    </div>
+    <hr>
+    <div class = "content">
+        <h2 class = "content__word">計算正整數的平方</h2>
+        <div class = "input">
+            <label for = "number">正整數</label>
+            <input placeholder = "請輸入正整數" id = "number">
+        </div>
+        <button class = "button"　type = "submit" id = "calculate">計算</button>
+    </div>
+</body>
+<script>
+    //確認同意按鈕是否有勾選，先找出該元素
+    let consentBox = document.querySelector("#consent");
+    let buttonConsentCheck = document.querySelector("#consentCheck");
+
+    //點擊登入，送出資料
+    buttonConsentCheck.addEventListener("click",function(){
+        //按鈕被點擊時，跑函式檢查checkbox是否有被勾選
+        if (consentBox.checked){
+            //找出帳號和密碼填寫的值
+            let username = document.getElementById("account").value;
+            let password = document.getElementById("password").value;
+
+            //創建FormDate
+            let formData = new FormData();
+            formData.append("username",username);
+            formData.append("password",password);
+
+            // 發送Post給伺服器驗證帳密
+            fetch("http://127.0.0.1:8000/signin",{
+                method:"POST",
+                body:formData
+                })
+                .then(function(response){
+                if(response.redirected){
+                window.location.href = response.url;
+                }
+            })
+        }else{
+            alert("請先勾選同意條款");
+        }
+    });
+
+    //先找出計算的按鈕和輸入欄位的值
+    buttonCalculate = document.getElementById("calculate");
+
+    //讓計算輸入框只能輸入數字
+    let number = document.getElementById("number");
+    
+    number.addEventListener("input",function(event){
+        let value = event.target.value;  //找出輸入框的值
+        
+        value = value.replace(/\D/g,"");  //這段有點難，之後再研究，正則運算
+        
+        event.target.value = value; //更新輸入框的值
+    });
+
+    //點擊計算，送出資料
+    buttonCalculate.addEventListener("click",function(){
+        //按鈕被點擊時，跑函式檢查輸入值是否為負值
+        let number = document.getElementById("number").value; 
+        let formData = new FormData();
+        formData.append("number",number);
+    
+        if (number < 0){
+            alert("請填寫正整數");  //再加上只限制輸入數字後，這個判斷用不到了
+        }else if (number == "") {
+            alert("欄位不得為空，請填寫正整數")
+        }else{            
+            // 發送Post給伺服器數字
+            fetch("http://127.0.0.1:8000/calculate",{
+                method:"POST",
+                body:formData,
+                })
+                .then(function(response){
+                if(response.redirected){
+                window.location.href = response.url;
+                }
+            });
+        }
+    });
+
+</script>
+
+</html>
