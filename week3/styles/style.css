@@ -56,6 +56,10 @@ html{
     background-color:white;
 }
 
+.body{
+    font-size:20px;
+}
+
 /* 1200px < screen width < 1920px
 /* navigation bar */
 .navbar--600px{
@@ -66,10 +70,6 @@ html{
     display: none;
 }
 
-.body{
-    font-size:20px;
-}
-
 .navbar{
     display: flex;
     justify-content:space-between;
@@ -77,7 +77,8 @@ html{
 }
 
 .navbar__webtitle{
-    margin:10px;
+    margin:0px;
+    padding:10px;
 }
 
 .navbar__list_items{
@@ -142,6 +143,9 @@ h1{
     text-align: left;
     line-height: 50px;
     padding:10px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
 }
 
 /*big box*/
@@ -153,7 +157,8 @@ h1{
 }
 
 .content__bbox{
-    margin:10px;
+    margin:10px 10px;
+    margin-bottom:-10px;
 }
 
 .content__bbox_container{
@@ -183,11 +188,34 @@ h1{
 
 .content__bbox_word{
     text-align: center;
-    padding:12.5px;
+    padding:15px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow:ellipsis;
 }
 
 p{
     margin:0;
+}
+
+/* Load More按鈕 */
+
+.content__button{
+    display: flex;
+    justify-content: center;
+    margin: 40px;
+}
+
+.button{
+    background-color: lightblue;
+    height: 40px;
+    width: 150px;
+}
+
+.button__word{
+    text-align: center;
+    font-size:20px;
+    font-weight: 200;
 }
 
 
@@ -254,6 +282,8 @@ p{
 
     .navbar__hamberger{
         width: 50%;
+        height: 40px;
+    }
 
     .navbar__img_menu{
         display: inline-block;
@@ -265,16 +295,13 @@ p{
 
     .navbar__img_close{
         display: inline-block;
-        position: absolute;
+        position: fixed;
         z-index: 2;
         right:10px;
         top:10px;
         display:none;
     }
     
-
-    }
-
     /* 漢堡選單*/
 
     .navbar__popup{
@@ -354,12 +381,14 @@ p{
         display: flex;
         flex-wrap: wrap;
         justify-content:space-between ;
+        margin-top: 0px;
     }
 
     .content__bbox{
         width:auto;
         flex:90%;
         margin-bottom:-10px;
+    }
     }
 
     @media(max-width:420px){
@@ -387,5 +416,4 @@ p{
         }
 
     }
-
     }
