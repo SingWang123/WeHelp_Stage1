@@ -54,10 +54,6 @@ async def member(request: Request):
     request.session["SIGNED-IN"] = False 
     return RedirectResponse(url = "/")
 
-# 計算的API
-@app.post("/calculate")
-async def calculate(request:Request, number: int = Form(None)):
-   return RedirectResponse(url = f"/square/{number}", status_code = 303) #f-string 的 f 表示 "formatted"，它告訴 Python 解釋器將字串格式化為 f-string。 
 
 # Squared Number Page,顯示結果的Api 
 @app.get("/square/{number}", response_class = HTMLResponse)

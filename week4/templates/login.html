@@ -10,22 +10,24 @@
     <div class = "title__background">
         <h1 class = "title__word">歡迎光臨，請輸入帳號密碼</h1>
     </div>
-    <div class = "content">
-        <h2 class = "content__word">登入系統</h2>
-        <div class = "input">
-            <label for = "account">帳號</label>
-            <input placeholder = "請輸入帳號" id = "account">
+    <form action = "http://127.0.0.1:8000/signin" method="POST" id = "signin">
+        <div class = "content">
+            <h2 class = "content__word">登入系統</h2>
+            <div class = "input">
+                <label for = "account">帳號</label>
+                <input placeholder = "請輸入帳號" id = "account" name = "username">
+            </div>
+            <div class = "input">
+                <label for = "password">密碼</label>
+                <input placeholder = "請輸入密碼" id = "password" name = "password">
+            </div>
+            <div class = "input">
+                <label for = "consent">同意條款</label>
+                <input type = "checkbox" id = "consent">
+            </div>
+            <button class = "button" type = "button" id = "consentCheck">登入</button>
         </div>
-        <div class = "input">
-            <label for = "password">密碼</label>
-            <input placeholder = "請輸入密碼" id = "password">
-        </div>
-        <div class = "input">
-            <label for = "consent">同意條款</label>
-            <input type = "checkbox" id = "consent">
-        </div>
-        <button class = "button" type = "submit"  id = "consentCheck">登入</button>
-    </div>
+    </form>
     <hr>
     <div class = "content">
         <h2 class = "content__word">計算正整數的平方</h2>
@@ -33,7 +35,7 @@
             <label for = "number">正整數</label>
             <input placeholder = "請輸入正整數" id = "number">
         </div>
-        <button class = "button"　type = "submit" id = "calculate">計算</button>
+        <button class = "button" type = "submit" id = "calculate">計算</button>
     </div>
 </body>
 <script>
@@ -44,28 +46,11 @@
     //點擊登入，送出資料
     buttonConsentCheck.addEventListener("click",function(){
         //按鈕被點擊時，跑函式檢查checkbox是否有被勾選
-        if (consentBox.checked){
-            //找出帳號和密碼填寫的值
-            let username = document.getElementById("account").value;
-            let password = document.getElementById("password").value;
-
-            //創建FormDate
-            let formData = new FormData();
-            formData.append("username",username);
-            formData.append("password",password);
-
-            // 發送Post給伺服器驗證帳密
-            fetch("http://127.0.0.1:8000/signin",{
-                method:"POST",
-                body:formData
-                })
-                .then(function(response){
-                if(response.redirected){
-                window.location.href = response.url;
-                }
-            })
+        if (!consentBox.checked){    // ! 符號是 JavaScript 中的邏輯非運算符，用於對布林值進行取反
+            alert("請先勾選同意條款"); 
         }else{
-            alert("請先勾選同意條款");
+            //手動提交表單
+            document.getElementById("signin").submit();
         }
     });
 
@@ -95,19 +80,48 @@
         }else if (number == "") {
             alert("欄位不得為空，請填寫正整數")
         }else{            
-            // 發送Post給伺服器數字
-            fetch("http://127.0.0.1:8000/calculate",{
-                method:"POST",
-                body:formData,
-                })
-                .then(function(response){
-                if(response.redirected){
-                window.location.href = response.url;
-                }
+            // 發送Get 從路由傳遞數字
+            fetch("http://127.0.0.1:8000/square/${number}")
+                .then(function(){
+                window.location.href = `http://127.0.0.1:8000/square/${number}`;  //模板字符串，需要使用反引號（）而不是雙引號（""）或單引號（''），並在其中使用 ${}` 表達式。
             });
         }
     });
 
+
+/* 第一題不用fetch作法，保留寫法
+
+    //點擊登入，送出資料
+buttonConsentCheck.addEventListener("click",function(){
+    //按鈕被點擊時，跑函式檢查checkbox是否有被勾選
+    if (consentBox.checked){
+        //找出帳號和密碼填寫的值
+        let username = document.getElementById("account").value;
+        let password = document.getElementById("password").value;
+
+        //創建FormDate
+        let formData = new FormData();
+        formData.append("username",username);
+        formData.append("password",password);
+
+        // 發送Post給伺服器驗證帳密
+        fetch("http://127.0.0.1:8000/signin",{
+            method:"POST",
+            body:formData
+            })
+            .then(function(response){
+            if(response.redirected){
+            window.location.href = response.url;
+            }
+        })
+    }else{
+        alert("請先勾選同意條款");
+    }
+});
+
+*/
+
 </script>
 
 </html>
+
