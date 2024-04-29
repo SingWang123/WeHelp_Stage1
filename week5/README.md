@@ -5,7 +5,7 @@
 *SQL Statement*  
 
 ```MySql
-create data base website;
+create database website;
 ```
 
 ![statement 2-1](images/statement_2-1.png)
