@@ -10,7 +10,7 @@ create database website;
 
 ![statement 2-1](images/statement_2-1.png)
 
-### Create a new table named member, in the website database, designed as below:
+### Create a new table named member, in the website database.
 *SQL Statement*  
 
 ```MySql
@@ -135,6 +135,131 @@ update member set name = 'test2' where username = 'test';
 
 ## Task 4: SQL Aggregation Functions
 ### SELECT how many rows from the member table.
+*SQL Statement*  
+
+```MySql
+select count(*) from member;
+```
+
+![statement 4-1](images/statement_4-1.png)  
+
+### SELECT the sum of follower_count of all the rows from the member table.
+*SQL Statement*  
+
+```MySql
+update member set follower_count = 5 where id = '2';
+update member set follower_count = 45458 where id = '3';
+update member set follower_count = 487 where id = '4';
+update member set follower_count = 6 where id = '5';
+```
+
+```MySql
+select sum(follower_count)
+    -> from member;
+```
+
+![statement 4-2](images/statement_4-2.png)  
+
+### SELECT the average of follower_count of all the rows from the member table.
+*SQL Statement*  
+
+```MySql
+select avg(follower_count)
+    -> from member;
+```
+
+![statement 4-3](images/statement_4-3.png)  
+
+###  SELECT the average of follower_count of the first 2 rows, in descending order of follower_count, from the member table.
+*SQL Statement*  
+
+```MySql
+select avg(follower_count)
+    -> from ( select * from member order by follower_count desc limit 0,2) as subquery ;
+```
+
+![statement 4-4](images/statement_4-4.png)  
+
+## Task 5:  SQL JOIN
+### Create a new table named message, in the website database.
+*SQL Statement*  
+
+```MySql
+create table message (id bigint primary key, member_id bigint, content varchar(255), like_count int unsigned, time datetime);
+```  
+
+```MySql
+alter table message
+    -> modify id bigint auto_increment;
+alter table message
+    -> modify member_id bigint not null;
+alter table message
+    -> modify content varchar(255) not null;
+alter table message
+    -> modify like_count int unsigned not null default 0;
+alter table message
+    -> modify time datetime not null default current_timestamp;
+```
+
+```MySql
+insert into message (member_id, content, like_count) values ('1', 'test message content', '5');
+insert into message (member_id, content, like_count) values ('1', '您好嗎？', '1354');
+insert into message (member_id, content, like_count) values ('3', '我很好', '54');
+insert into message (member_id, content, like_count) values ('4', '他不好', '0');
+insert into message (member_id, content, like_count) values ('1', '謝謝', '10000');
+```
+
+![statement 5-1](images/statement_5-1.png)  
+
+### SELECT all messages, including sender names. We have to JOIN the member table to get that.
+*SQL Statement*  
+
+```MySql
+select message.id, member.username, message.content, message.like_count, message.time
+    -> from message
+    -> inner join member on message.member_id = member.id;
+```  
+
+![statement 5-2](images/statement_5-2.png)  
+
+###  SELECT all messages, including sender names, where sender username equals to test. We have to JOIN the member table to filter and get that.
+*SQL Statement*  
+
+```MySql
+select message.id, member.username, message.content, message.like_count, message.time
+    -> from message
+    -> inner join member on message.member_id = member.id
+    -> where username = 'test';
+```  
+
+![statement 5-3](images/statement_5-3.png) 
+
+###   Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages where sender username equals to test.
+*SQL Statement*  
+
+```MySql
+select avg (like_count)
+    -> from (
+        select message.id, member.username, message.like_count 
+        from message 
+        inner join member on message.member_id = member.id 
+        where username = 'test'
+        )
+    -> as subquery;
+```  
+
+![statement 5-4](images/statement_5-4.png) 
+
+###   Use SELECT, SQL Aggregation Functions with JOIN statement, get the average like count of messages GROUP BY sender username.
+*SQL Statement*  
+
+```MySql
+select username, avg (like_count)
+    -> from (select message.id, member.username, message.like_count from message inner join member on message.member_id = member.id) as subquery
+    -> group by username;
+```  
+
+![statement 5-5](images/statement_5-5.png) 
 
 
 
