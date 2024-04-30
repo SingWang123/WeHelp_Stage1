@@ -199,7 +199,9 @@ alter table message
     -> modify like_count int unsigned not null default 0;
 alter table message
     -> modify time datetime not null default current_timestamp;
-```
+```  
+
+![statement 5-1_1](images/statement_5-1_1.png)  
 
 ```MySql
 insert into message (member_id, content, like_count) values ('1', 'test message content', '5');
@@ -209,7 +211,7 @@ insert into message (member_id, content, like_count) values ('4', '他不好', '
 insert into message (member_id, content, like_count) values ('1', '謝謝', '10000');
 ```
 
-![statement 5-1](images/statement_5-1.png)  
+![statement 5-1_2](images/statement_5-1_2.png)  
 
 ### SELECT all messages, including sender names. We have to JOIN the member table to get that.
 *SQL Statement*  
@@ -255,12 +257,16 @@ select avg (like_count)
 
 ```MySql
 select username, avg (like_count)
-    -> from (select message.id, member.username, message.like_count from message inner join member on message.member_id = member.id) as subquery
+    -> from (
+        select message.id, member.username, message.like_count 
+        from message 
+        inner join member on message.member_id = member.id
+        ) 
+    -> as subquery
     -> group by username;
 ```  
 
 ![statement 5-5](images/statement_5-5.png) 
-
 
 
 
