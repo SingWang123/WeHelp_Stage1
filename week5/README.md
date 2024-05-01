@@ -104,7 +104,7 @@ select * from member order by time desc limit 1,3;
 select * from member where username = 'test';
 ```
 
-![statement 3-5](images/statement_3-5.png)  S
+![statement 3-5](images/statement_3-5.png)
 
 ### SELECT rows where name includes the es keyword.
 *SQL Statement*  
