@@ -1,0 +1,56 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    font-size: 20px;
+}
+
+.title__background{
+    width: auto;
+    height: 75px;
+    background-color: #223344;
+}
+
+h1{
+    color:white;
+    text-align: center;
+    line-height: 75px;
+}
+
+.content{
+    width: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content__word{
+    width: 100%;
+    text-align: center;
+    color: black;
+}
+
+.input{
+    display: inline-block;
+    text-align: center;
+    width:100%;
+    margin: 10px;
+}
+
+input{
+    font-size: 20px;;
+}
+
+button{
+    margin: 20px;
+    font-size: 20px;
+    width: 80px;
+    height: 40px;
+}
+
+hr{
+    width: 100%;
+    height: 2px;
+    margin: 35px 0px;
+    background-color: grey;
+    border:none;
+}
