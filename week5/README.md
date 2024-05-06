@@ -104,13 +104,13 @@ select * from member order by time desc limit 1,3;
 select * from member where username = 'test';
 ```
 
-![statement 3-5](images/statement_3-5.png)  
+![statement 3-5](images/statement_3-5.png)
 
 ### SELECT rows where name includes the es keyword.
 *SQL Statement*  
 
 ```MySql
-select * from member where username like '%es%';
+select * from member where name like '%es%';
 ```
 
 ![statement 3-6](images/statement_3-6.png)  
@@ -199,7 +199,16 @@ alter table message
     -> modify like_count int unsigned not null default 0;
 alter table message
     -> modify time datetime not null default current_timestamp;
+```  
+
+![statement 5-1_1](images/statement_5-1_1.png)  
+
+```MySql
+alter table message
+    -> add foreign key (member_id) references member(id);
 ```
+
+![statement 5-1_2](images/statement_5-1_2.png)  
 
 ```MySql
 insert into message (member_id, content, like_count) values ('1', 'test message content', '5');
@@ -209,7 +218,7 @@ insert into message (member_id, content, like_count) values ('4', '他不好', '
 insert into message (member_id, content, like_count) values ('1', '謝謝', '10000');
 ```
 
-![statement 5-1](images/statement_5-1.png)  
+![statement 5-1_3](images/statement_5-1_3.png)  
 
 ### SELECT all messages, including sender names. We have to JOIN the member table to get that.
 *SQL Statement*  
@@ -255,12 +264,16 @@ select avg (like_count)
 
 ```MySql
 select username, avg (like_count)
-    -> from (select message.id, member.username, message.like_count from message inner join member on message.member_id = member.id) as subquery
+    -> from (
+        select message.id, member.username, message.like_count 
+        from message 
+        inner join member on message.member_id = member.id
+        ) 
+    -> as subquery
     -> group by username;
 ```  
 
 ![statement 5-5](images/statement_5-5.png) 
-
 
 
 
