@@ -70,17 +70,17 @@ async def login(request: Request):
 @app.post("/signup")
 async def signup(request:Request, name: str = Form(None), username_signup: str = Form(None), password_signup: str = Form(None)):
     # 檢查username是否有重複    
-    sql_search = "SELECT username FROM member"
-    mycursor.execute(sql_search)
-    result = mycursor.fetchall()
-    if (username_signup,) in result:
-        print("帳號已存在")
+    sql_search_username = "SELECT username FROM member"
+    mycursor.execute(sql_search_username)
+    result_username = mycursor.fetchall()
+    if (username_signup,) in result_username:
+        return "帳號已存在"
     else:
         sql = "insert into member (name, username, password) values (%s, %s, %s)"
         val = (name,username_signup,password_signup)
         mycursor.execute(sql,val)
         mydb.commit()
-        print("註冊新帳號")
+        return "註冊成功"
 
 # Vertification Endpoint
 @app.post("/signin")
