@@ -7,9 +7,53 @@ from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI()
 
+# 連接上資料庫
+import mysql.connector
+mydb = mysql.connector.connect(
+  host = "localhost",
+  user ="root",
+  password = "12345678",
+  database = "website"
+)
+
+mycursor = mydb.cursor()
+
+# sql_search = "SELECT username FROM member"
+# mycursor.execute(sql_search)
+# result = mycursor.fetchall()
+# print(('test1234',) in result)
+
+# sql = "insert into member (name, username, password) values (%s, %s, %s)"
+# val = ("測試塞資料","test012","1234")
+
+# def mytest():
+#     if (val[1],) in result:
+#         print("帳號已存在")
+#     else:
+#         mycursor.execute(sql,val)
+#         mydb.commit()
+
+# mytest()
+
+
+
+# sql_delete = "delete from member where username ='test123'"
+# mycursor.execute(sql_delete)
+# mydb.commit()
+
+
+
+sql_search2 = "SELECT * FROM member"
+mycursor.execute(sql_search2)
+myresult = mycursor.fetchall()
+for x in myresult:
+   print(x)
+
+
 # 設定 SessionMiddleware
 app.add_middleware(SessionMiddleware, secret_key = "my_secret_key")
 
+# Jinja2 Templates
 app.mount("/static",StaticFiles(directory="static"),name="static")
 
 templates = Jinja2Templates(directory="templates")
@@ -21,6 +65,22 @@ async def login(request: Request):
         return RedirectResponse(url = "/member")  #一般成功登入後，不會讓使用者去登入頁再登入一次，邏輯上有點奇怪
     else:  
         return templates.TemplateResponse("home.html", {"request": request})
+    
+# Signup Endpoint
+@app.post("/signup")
+async def signup(request:Request, name: str = Form(None), username_signup: str = Form(None), password_signup: str = Form(None)):
+    # 檢查username是否有重複    
+    sql_search = "SELECT username FROM member"
+    mycursor.execute(sql_search)
+    result = mycursor.fetchall()
+    if (username_signup,) in result:
+        print("帳號已存在")
+    else:
+        sql = "insert into member (name, username, password) values (%s, %s, %s)"
+        val = (name,username_signup,password_signup)
+        mycursor.execute(sql,val)
+        mydb.commit()
+        print("註冊新帳號")
 
 # Vertification Endpoint
 @app.post("/signin")
@@ -50,14 +110,9 @@ async def member(request: Request, error_type):
 
 # Signout Endpoint
 @app.get("/signout", response_class = HTMLResponse)
-async def member(request: Request):
+async def signout(request: Request):
     request.session["SIGNED-IN"] = False 
     return RedirectResponse(url = "/")
 
 
-# Squared Number Page,顯示結果的Api 
-@app.get("/square/{number}", response_class = HTMLResponse)
-async def squared(request:Request, number: int):
-    result = number ** 2
-    return templates.TemplateResponse("squared.html", {"request": request, "number": result})
 
