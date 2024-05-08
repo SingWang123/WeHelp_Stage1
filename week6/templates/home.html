@@ -25,7 +25,7 @@
                 <label for = "password_signup">密碼</label>
                 <input placeholder = "請輸入密碼" id = "password_signup" name = "password_signup">
             </div>
-            <button class = "button" type = "submit" id = "buttonSignup">註冊</button>
+            <button class = "button" type = "button" id = "buttonSignup">註冊</button>
         </div>
     </form>
     <hr>
@@ -52,14 +52,14 @@
     let passwordSignup = document.getElementById("password_signup")
 
     //點擊註冊，送出資料
-    buttonSignup.addEventListener("click",function(){
-    event.preventDefault();
+    buttonSignup.addEventListener("click",function(event){
     //按鈕被點擊時，檢查輸入框是否有填寫內容
-    if (nameSignup.value.length === 0 | usernameSignup.value.length === 0 |passwordSignup.value.length === 0){  
+    if (nameSignup.value.length === 0 || usernameSignup.value.length === 0 ||passwordSignup.value.length === 0){  
         alert("請填寫所有註冊欄位"); 
     }else{
         //手動提交表單
-        //document.getElementById("signup").submit();    
+        document.getElementById("signup").submit(); 
+        event.preventDefault();   
         }
     }); 
 
@@ -69,7 +69,7 @@
     //點擊登入，送出資料
     buttonSignin.addEventListener("click",function(){
        //按鈕被點擊時，檢查輸入框是否有填寫內容
-        if (usernameSignin.value.length === 0 |passwordSignin.value.length === 0){ 
+        if (usernameSignin.value.length === 0 || passwordSignin.value.length === 0){ 
             alert("請填寫所有登入欄位"); 
         }else{
             //手動提交表單
