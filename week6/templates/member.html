@@ -14,5 +14,37 @@
         <h2 class = "content__word">{{login_name}}，歡迎登入系統</h2>
         <a class = "content__word" href = http://127.0.0.1:8000/signout>登出系統</a>
     </div>
+    <hr>
+    <form action = "http://127.0.0.1:8000/createMessage" method="POST" id = "createMessage">
+        <div class = "content">
+            <h2 class = "content__word">快來留言吧</h2>
+            <div class = "input">
+                <label for = "message">內容</label>
+                <input placeholder = "請輸入留言" id = "message" name = "message_content">
+            </div>
+            <button class = "button" type = "button" id = "buttonMessage">送出</button>
+        </div>
+    </form>
+    <hr>
+    <div>
+        {% for message in messages %}
+        <div>{{ message[0] }}：{{ message[1] }} </div>   
+        {% endfor %}
+    </div>
 </body>
+<script>
+    //取得輸入框的值
+    let message = document.getElementById("message")
+
+    //點擊登入，送出資料
+    buttonMessage.addEventListener("click",function(){
+       //按鈕被點擊時，檢查輸入框是否有填寫內容
+        if (message.value.length === 0){ 
+            alert("請填寫留言內容"); 
+        }else{
+            //手動提交表單
+            document.getElementById("createMessage").submit();
+        }
+    });
+</script>
 </html>

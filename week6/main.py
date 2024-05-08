@@ -42,8 +42,8 @@ mycursor = mydb.cursor()
 # mydb.commit()
 
 
-
-sql_search2 = "SELECT * FROM member"
+#sql_search2 = "SELECT * FROM message"
+sql_search2 = "SELECT member.name, message.content, message.time FROM message INNER JOIN member ON message.member_id = member.id ORDER BY time DESC"
 mycursor.execute(sql_search2)
 myresult = mycursor.fetchall()
 for x in myresult:
@@ -118,7 +118,11 @@ async def login(request: Request):
         # 從session中獲取使用者名稱
         user_state = request.session.get("USER-STATE")
         login_name = user_state[2]
-        return templates.TemplateResponse("member.html", {"request": request, "login_name":login_name})
+        # 撈取留言內容
+        sql_search_message = "SELECT member.name, message.content, message.time FROM message INNER JOIN member ON message.member_id = member.id ORDER BY time DESC"
+        mycursor.execute(sql_search_message)
+        messages = mycursor.fetchall()
+        return templates.TemplateResponse("member.html", {"request": request, "login_name":login_name, "messages":messages })
 
 # Error Page
 @app.get("/error", response_class = HTMLResponse)
@@ -132,5 +136,14 @@ async def signout(request: Request):
     del request.session["USER-STATE"] 
     return RedirectResponse(url = "/")
 
-
+# CreateMessage Endpoint
+@app.post("/createMessage")
+async def login(request:Request, message_content: str = Form(None)):
+    # 將留言訊息寫入資料庫，根據session資料取得留言者id
+    user_state = request.session.get("USER-STATE")
+    sql = "INSERT INTO message (member_id, content) VALUES (%s, %s)"
+    val = (user_state[0],message_content)
+    mycursor.execute(sql,val)
+    mydb.commit()
+    return RedirectResponse(url = "/member", status_code = 303) #RedirectResponse會用post的方式取資料，但/member 是get，需加上303狀態才不會出現505錯誤。
 
