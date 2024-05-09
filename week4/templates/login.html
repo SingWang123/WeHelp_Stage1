@@ -72,8 +72,6 @@
     buttonCalculate.addEventListener("click",function(){
         //按鈕被點擊時，跑函式檢查輸入值是否為負值
         let number = document.getElementById("number").value; 
-        let formData = new FormData();
-        formData.append("number",number);
     
         if (number < 0){
             alert("請填寫正整數");  //再加上只限制輸入數字後，這個判斷用不到了
