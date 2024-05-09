@@ -33,43 +33,45 @@ async def login(request: Request):
         return RedirectResponse(url = "/member")  #一般成功登入後，不會讓使用者去登入頁再登入一次，邏輯上有點奇怪
     else:  
         return templates.TemplateResponse("home.html", {"request": request})
-    
+
 # Signup Endpoint
 @app.post("/signup")
 async def signup(request:Request, name: str = Form(None), username_signup: str = Form(None), password_signup: str = Form(None)):
     # 檢查username是否有重複    
-    sql_search_username = "SELECT username FROM member"
-    mycursor.execute(sql_search_username)
+    sql_search_username = "SELECT username FROM member WHERE username = %s"
+    val_search_username = (username_signup,)
+    mycursor.execute(sql_search_username,val_search_username)
     result_username = mycursor.fetchall()
-    if (username_signup,) in result_username:
-        return RedirectResponse(url = "/error?error_type=帳號已存在", status_code = 303)
-    else:
+    if len(result_username) == 0:
         sql = "INSERT INTO member (name, username, password) VALUES (%s, %s, %s)"
         val = (name,username_signup,password_signup)
         mycursor.execute(sql,val)
         mydb.commit()
         return RedirectResponse(url = "/", status_code = 303)
+    else:
+        return RedirectResponse(url = "/error?error_type=帳號已存在", status_code = 303)
 
 # Vertification Endpoint
 @app.post("/signin")
 async def login(request:Request, username_signin: str = Form(None), password_signin: str = Form(None)):
     # form()內必須要有None，預設值為None表示允許空值送出；若沒有加None會報錯422
     # 檢查帳號和密碼是否和資料庫一致
-    sql_login = "SELECT username, password FROM member"
-    mycursor.execute(sql_login)
+    sql_login = "SELECT username, password FROM member WHERE username = %s AND password = %s"
+    val_login = (username_signin,password_signin)
+    mycursor.execute(sql_login,val_login)
     result_login = mycursor.fetchall()
-    if (username_signin, password_signin) in result_login:
+    if len(result_login) == 0:
+        #帳密不正確，轉到錯誤頁
+        return RedirectResponse(url = "/error?error_type=帳號或密碼輸入錯誤", status_code = 303)
+    else:
         #撈取資料庫該位用戶id,name,username加入session
-        sql_memberdata = "SELECT id,username,name FROM member WHERE username = %s"
+        sql_memberdata = "SELECT id, username, name FROM member WHERE username = %s"
         val_memberdata = (username_signin,)
         mycursor.execute(sql_memberdata,val_memberdata)
         memberdata = mycursor.fetchall()
         request.session["USER-STATE"] = [memberdata[0][0],memberdata[0][1],memberdata[0][2]]
         request.session["SIGNED-IN"] = True
-        return RedirectResponse(url = "/member", status_code = 303) #RedirectResponse會用post的方式取資料，但/member 是get，需加上303狀態才不會出現505錯誤。
-    #帳密不正確，轉到錯誤頁
-    else:
-        return RedirectResponse(url = "/error?error_type=帳號或密碼輸入錯誤", status_code = 303)
+        return RedirectResponse(url = "/member", status_code = 303) #RedirectResponse會用post的方式取資料，但/member 是get，需加上303狀態才不會出現505錯誤。    
 
 # Success Page
 @app.get("/member", response_class = HTMLResponse)
