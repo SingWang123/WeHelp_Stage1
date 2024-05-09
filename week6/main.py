@@ -18,44 +18,6 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-# sql_search = "SELECT username FROM member"
-# mycursor.execute(sql_search)
-# result = mycursor.fetchall()
-# print(('test1234',) in result)
-
-# sql = "insert into member (name, username, password) values (%s, %s, %s)"
-# val = ("測試塞資料","test012","1234")
-
-# def mytest():
-#     if (val[1],) in result:
-#         print("帳號已存在")
-#     else:
-#         mycursor.execute(sql,val)
-#         mydb.commit()
-
-# mytest()
-
-
-
-# sql_delete = "delete from member where username ='test123'"
-# mycursor.execute(sql_delete)
-# mydb.commit()
-
-
-#sql_search2 = "SELECT * FROM message"
-sql_search2 = "SELECT member.name, message.content, message.time FROM message INNER JOIN member ON message.member_id = member.id ORDER BY time DESC"
-mycursor.execute(sql_search2)
-myresult = mycursor.fetchall()
-for x in myresult:
-   print(x)
-
-
-
-# if ('456','456') in myresult:
-#     print(True)
-# else:   
-#     print(False)
-
 # 設定 SessionMiddleware
 app.add_middleware(SessionMiddleware, secret_key = "my_secret_key")
 
@@ -139,7 +101,7 @@ async def signout(request: Request):
 
 # CreateMessage Endpoint
 @app.post("/createMessage")
-async def login(request:Request, message_content: str = Form(None)):
+async def createMessage(request:Request, message_content: str = Form(None)):
     # 將留言訊息寫入資料庫，根據session資料取得留言者id
     user_state = request.session.get("USER-STATE")
     sql = "INSERT INTO message (member_id, content) VALUES (%s, %s)"
@@ -148,3 +110,21 @@ async def login(request:Request, message_content: str = Form(None)):
     mydb.commit()
     return RedirectResponse(url = "/member", status_code = 303) #RedirectResponse會用post的方式取資料，但/member 是get，需加上303狀態才不會出現505錯誤。
 
+# DeleteMessage Endpoint
+@app.post("/deleteMessage")
+async def deleteMessage(request:Request, message_id: str = Form(None)):
+    #檢查傳送刪除請求的是不是該留言id的帳號
+    user_state = request.session.get("USER-STATE")
+    user_id = user_state[0]
+    sql = "SELECT member_id FROM message WHERE id = %s"
+    val = (message_id,)
+    mycursor.execute(sql,val)
+    user = mycursor.fetchall()
+    if user[0][0] == user_id:
+        sql_delete = "delete from message where id = %s"
+        val_delete = (message_id,)
+        mycursor.execute(sql_delete,val_delete)
+        mydb.commit()
+        return RedirectResponse(url = "/member", status_code = 303) #RedirectResponse會用post的方式取資料，但/member 是get，需加上303狀態才不會出現505錯誤。 
+    else:
+        return {"error": "您沒有權限刪除留言"}  
