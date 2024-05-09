@@ -115,14 +115,15 @@ async def login(request: Request):
     if "SIGNED-IN" not in request.session or request.session["SIGNED-IN"] == False :
         return RedirectResponse(url = "/")
     else:  
-        # 從session中獲取使用者名稱
+        # 從session中獲取使用者名稱 / ID(比對留言者時使用)
         user_state = request.session.get("USER-STATE")
         login_name = user_state[2]
+        user_id = user_state[0]
         # 撈取留言內容
-        sql_search_message = "SELECT member.name, message.content, message.time FROM message INNER JOIN member ON message.member_id = member.id ORDER BY time DESC"
+        sql_search_message = "SELECT member.name, message.content, message.id, message.member_id, message.time FROM message INNER JOIN member ON message.member_id = member.id ORDER BY time DESC"
         mycursor.execute(sql_search_message)
         messages = mycursor.fetchall()
-        return templates.TemplateResponse("member.html", {"request": request, "login_name":login_name, "messages":messages })
+        return templates.TemplateResponse("member.html", {"request": request, "login_name":login_name, "user_id":user_id, "messages":messages })
 
 # Error Page
 @app.get("/error", response_class = HTMLResponse)
