@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="{{url_for('static', path = '/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class = "title__background">
+        <h1 class = "title__word">歡迎光臨，這是會員頁</h1>
+    </div>
+    <div class = "content">
+        <h2 class = "content__word">{{login_name}}，歡迎登入系統</h2>
+        <a class = "content__word" href = http://127.0.0.1:8000/signout>登出系統</a>
+    </div>
+    <hr>
+    <div class = "content">
+        <h2 class = "content__word">查詢會員姓名</h2>
+        <div class = "input__queryname">
+            <input placeholder = "請輸入會員姓名" id = "query_name">
+            <button class = "button__queryname" type = "button" id = "buttonQueryName">查詢</button>
+        </div>
+    </div>
+    <hr>
+    <div class = "content">
+        <h2 class = "content__word">更新我的姓名</h2>
+        <div class = "input__queryname">
+            <input placeholder = "請輸入新的姓名" id = "change_name">
+            <button class = "button__queryname" type = "button" id = "buttonChangeName">更新</button>
+        </div>
+    </div>
+    <hr>
+    <form action = "http://127.0.0.1:8000/createMessage" method="POST" id = "createMessage">
+        <div class = "content">
+            <h2 class = "content__word">快來留言吧</h2>
+            <div class = "input">
+                <label for = "message">內容</label>
+                <input placeholder = "請輸入留言" id = "message" name = "message_content">
+            </div>
+            <button class = "button" type = "button" id = "buttonMessage">送出</button>
+        </div>
+    </form>
+    <div class = "content">
+        {% for message in messages %}
+        <div class = "content__word">
+            <span class = "content__name">{{ message[0] }}：</span>
+            <span>{{ message[1] }}</span>
+            {% if user_id == message[3] %}
+                <button class = "button__delete" type = "button" data-message-id = "{{message[2]}}">X</button>
+                {% endif %}
+        </div> 
+        {% endfor %}
+    </div>
+</body>
+<script>
+    //取得輸入框的值
+    let message = document.getElementById("message")
+
+    //點擊登入，送出資料
+    buttonMessage.addEventListener("click",function(){
+       //按鈕被點擊時，檢查輸入框是否有填寫內容
+        if (message.value.length === 0){ 
+            alert("請填寫留言內容"); 
+        }else{
+            //手動提交表單
+            document.getElementById("createMessage").submit();
+        }
+    });
+
+    //刪除留言
+    let deleteButtons = document.querySelectorAll(".button__delete");
+    //用模板產出留言，數量不定，會是個陣列，需用迴圈去確認所有按鈕的點擊狀況
+    for (let i = 0; i < deleteButtons.length; i++){
+        deleteButtons[i].addEventListener("click",function(){
+            //按鈕被點擊時，跳出確認是否刪除視窗
+            let deleteConfirm = confirm("確定要刪除留言嗎？");
+            if (deleteConfirm){
+                let messageID = deleteButtons[i].getAttribute("data-message-id"); //鎖定按鈕裡面的屬性的資料，得到該留言的ID
+                
+                //創建FormDate
+                let formData = new FormData();
+                formData.append("message_id",messageID);
+
+                // 發送Post給伺服器驗證帳密
+                fetch("http://127.0.0.1:8000/deleteMessage",{
+                    method:"POST",
+                    body:formData
+                    })
+                    .then(function(response){
+                    if(response.redirected){
+                        window.location.href = response.url;
+                    }
+                    })    
+            }
+        });
+    }
+
+    //查詢會員姓名
+    //取得輸入框的值
+    let queryName = document.getElementById("query_name")
+
+    //點擊按鈕，跟後端溝通，查詢用戶姓名並回傳資料
+    buttonQueryName.addEventListener("click",function(){
+       //按鈕被點擊時，檢查輸入框是否有填寫內容
+        if (queryName.value.length === 0){ 
+            alert("請填寫查詢帳號"); 
+        }else{
+            // 發送Post給伺服器驗證帳密
+            let param = {
+                query_username : queryName.value
+            };
+            let url_queryName = "http://127.0.0.1:8000/api/member?" + new URLSearchParams(param);
+            fetch(url_queryName)
+                .then(response => response.json())
+                .then(function(data){
+                    console.log(data);
+                })
+        }
+    });
+
+</script>
+</html>
