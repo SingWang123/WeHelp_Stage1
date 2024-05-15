@@ -135,13 +135,13 @@ async def deleteMessage(request:Request, message_id: str = Form(None)):
 # Member Query API (用query param方式帶參數)
 @app.get("/api/member")
 async def querymember(request:Request, query_username = str):
-    sql = "SELECT id, name, username From member WHERE id = %s"
-    val = (query_username)
+    sql = "SELECT id, name, username From member WHERE username = %s"
+    val = (query_username,)
     mycursor.execute(sql,val)
     memberdata = mycursor.fetchall()
     # 如果找不到用戶帳號，回傳"data":null
     if request.session["SIGNED-IN"] == False or len(memberdata) == 0:
-        return JSONResponse(content = {"data":"null"})
+        return JSONResponse(content = {"data":None})
     else:
         return JSONResponse(content= {
             "data":{
@@ -150,3 +150,27 @@ async def querymember(request:Request, query_username = str):
                 "username" : memberdata[0][2]
             }
         })
+
+#Name Update API
+@app.patch("/api/member")
+async def updatename(request:Request):
+    # 檢查使用者是否有登入
+    if "SIGNED-IN" not in request.session or request.session["SIGNED-IN"] == False :
+        return JSONResponse(content = {"error":True})
+    else:
+        # 用request.json() 來解析request傳來的json資料
+        data = await request.json()
+        update_name = data.get("name")
+
+        # 從session 取得該用戶的原本名稱
+        user_state = request.session.get("USER-STATE")
+        user_name = user_state[2]
+        
+        # 依據session取得請求的用戶名稱，並進行更換
+        sql_update = "UPDATE member SET name = %s WHERE name = %s"
+        val_update = (update_name,user_name)
+        mycursor.execute(sql_update,val_update)
+        mydb.commit()
+        # session內的用戶名稱也要修改
+        request.session["USER-STATE"][2] = update_name
+        return JSONResponse(content = {"ok":True})
