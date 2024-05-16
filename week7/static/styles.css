@@ -79,3 +79,7 @@ hr{
     background-color: grey;
     border:none;
 }
+
+p{
+    margin: 0px;
+}

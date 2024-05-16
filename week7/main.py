@@ -155,10 +155,10 @@ async def querymember(request:Request, query_username = str):
 @app.patch("/api/member")
 async def updatename(request:Request):
     # 檢查使用者是否有登入
-    if "SIGNED-IN" not in request.session or request.session["SIGNED-IN"] == False :
+    if  "SIGNED-IN" not in request.session or request.session["SIGNED-IN"] == False :
         return JSONResponse(content = {"error":True})
     else:
-        # 用request.json() 來解析request傳來的json資料
+        #用request.json() 來解析request傳來的json資料
         data = await request.json()
         update_name = data.get("name")
 
