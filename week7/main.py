@@ -162,13 +162,13 @@ async def updatename(request:Request):
         data = await request.json()
         update_name = data.get("name")
 
-        # 從session 取得該用戶的原本名稱
+        # 從session 取得該用戶的原本名稱 → 不能用名稱，名稱可能會重複，要抓帳號或ID
         user_state = request.session.get("USER-STATE")
-        user_name = user_state[2]
+        user_username = user_state[1]
         
         # 依據session取得請求的用戶名稱，並進行更換
-        sql_update = "UPDATE member SET name = %s WHERE name = %s"
-        val_update = (update_name,user_name)
+        sql_update = "UPDATE member SET name = %s WHERE username = %s"
+        val_update = (update_name,user_username)
         mycursor.execute(sql_update,val_update)
         mydb.commit()
         # session內的用戶名稱也要修改
